@@ -74,8 +74,8 @@
                             </a>
                             <div class="collapse" id="ui-basic">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link" href="<?= base_url('SuratKeluar'); ?>">Surat Keluar</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="<?= base_url('SuratKeputusan'); ?>">Surat Keputusan</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="<?= base_url('surat_keluar'); ?>">Surat Keluar</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="<?= base_url('Surat_Keputusan'); ?>">Surat Keputusan</a></li>
                                 </ul>
                             </div>
                         </li>

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class SuratKeluar extends CI_Controller
+class Surat_Keputusan extends CI_Controller
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class SuratKeluar extends CI_Controller
         $data['user'] = $this->User_model->getName($username);
 
         $this->load->view('header', $data);
-        $this->load->view('admin/list_user');
+        $this->load->view('surat_keputusan/list_surat_keputusan');
         $this->load->view('footer');
     }
 }
