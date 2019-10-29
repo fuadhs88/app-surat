@@ -45,4 +45,10 @@ class User_model extends CI_Model
         $this->db->where($this->id, $id);
         return $this->db->update('user', $data);
     }
+
+    public function get_by_status()
+    {
+        $this->db->where('blokir', 'Y');
+        return $this->db->get('user')->result();
+    }
 }

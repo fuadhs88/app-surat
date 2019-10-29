@@ -50,28 +50,27 @@
             <div class="col-md-12 stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-title">Data User</p>
+                        <p class="card-title">Data User Belum Diaktivasi</p>
+                        <br>
+                        <br>
                         <div class="table-responsive">
-                            <table id="recent-purchases-listing" class="table">
+                            <table id="user" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Status report</th>
-                                        <th>Office</th>
-                                        <th>Price</th>
-                                        <th>Date</th>
-                                        <th>Gross amount</th>
+                                        <th>No</th>
+                                        <th>Nama User</th>
+                                        <th>Level</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Ernest Wade</td>
-                                        <td>Levelled up</td>
-                                        <td>West Fidelmouth</td>
-                                        <td>$484</td>
-                                        <td>08 Sep 2018</td>
-                                        <td>$50862</td>
-                                    </tr>
+                                    <?php $i = 1; ?>
+                                    <?php foreach ($users as $user) : ?>
+                                        <tr>
+                                            <td width="50px"><?= $i++; ?></td>
+                                            <td><?= $user->nama; ?></td>
+                                            <td><?= $user->blokir; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

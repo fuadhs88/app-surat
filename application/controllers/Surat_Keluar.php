@@ -13,6 +13,10 @@ class Surat_Keluar extends CI_Controller
 
     public function index()
     {
+        if ($this->session->userdata('username') != "" && $this->session->userdata('level') == "Admin") { } else {
+            show_404();
+        }
+
         $username = $this->session->userdata('username');
 
         $data = array(

@@ -11,12 +11,18 @@ class Admin extends CI_Controller
 
     public function index()
     {
+        if ($this->session->userdata('username') != "" && $this->session->userdata('level') == "Admin") { } else {
+            show_404();
+        }
+
         $username = $this->session->userdata('username');
 
         $data['user'] = $this->User_model->getName($username);
 
-        $this->load->view('header', $data);
-        $this->load->view('admin/dashboard');
+        $data1['users'] = $this->User_model->get_by_status('Y');
+
+        $this->load->view('header', $data, $data1);
+        $this->load->view('admin/dashboard', $data1);
         $this->load->view('footer');
     }
 

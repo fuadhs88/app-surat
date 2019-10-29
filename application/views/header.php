@@ -85,17 +85,16 @@
                                 <span class="menu-title">Data User</span>
                             </a>
                         </li>
-                    <?php else : ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/charts/chartjs.html">
-                                <i class="mdi mdi-chart-pie menu-icon"></i>
-                                <span class="menu-title">Charts</span>
-                            </a>
                         </li>
+                    </ul>
+                </nav>
+            <?php else : ?>
+                <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                    <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/tables/basic-table.html">
-                                <i class="mdi mdi-grid-large menu-icon"></i>
-                                <span class="menu-title">Tables</span>
+                            <a class="nav-link" href="<?= base_url('user') ?>">
+                                <i class="mdi mdi-chart-pie menu-icon"></i>
+                                <span class="menu-title">Arsip Surat</span>
                             </a>
                         </li>
                     </ul>

@@ -20,7 +20,7 @@
             <div class="col-md-12 stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-title">Data User</p>
+                        <p class="card-title">Data Surat Keluar</p>
                         <a href="<?= base_url('Surat_Keluar/create'); ?>" class="btn btn-primary btn-sm">Tambah Data</a>
                         <br>
                         <br>
