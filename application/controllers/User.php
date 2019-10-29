@@ -65,25 +65,32 @@ class User extends CI_Controller
                 );
                 $id = $this->SuratUser_model->insert($data);
 
+
                 $config['upload_path']      = './surat_user';
                 $config['allowed_types']    = 'pdf';
                 $config['max_size'] = '2048';
-                $config['file_name'] = 'Surat' . $id;
+                $config['file_name'] = 'Surat' . $id.'.pdf';
                 $config['overwrite'] = TRUE;
-                $surat = 'Surat' . $id;
+                $surat = 'Surat' . $id.'.pdf';
 
                 $this->load->library('upload', $config);
                 $this->upload->initialize($config);
-                if (!$this->upload->do_upload('surat')) {
-
-                    redirect(base_url('User/index'));
+                if ($this->upload->do_upload('surat')) {
                     $data1 = array(
                         'filename'  => $surat
                     );
 
-                    $this->SuratUser_model->update($id, $data1);
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Surat berhasil ditambahkan</div>');
-                    redirect(base_url('User/index'));
+                    if ($this->SuratUser_model->update($id, $data1))
+                    { 
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Surat berhasil ditambahkan</div>');
+                        redirect(base_url('User/index'));
+                    }
+                    else
+                    {
+                        $this->SuratUser_model->delete($id);
+                        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">File gagal diupload. Pastikan Ukuran file 2 MB</div>');
+                        redirect(base_url('User/create'));
+                    }
                 } else {
                     $this->SuratUser_model->delete($id);
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">File gagal diupload.Pastikan Ukuran file 2 MB</div>');
@@ -112,44 +119,72 @@ class User extends CI_Controller
                 'surat' => $this->SuratUser_model->getAll()->result(),
             );
 
-            $this->load->view('templates/header', $data);
+            $this->load->view('header', $data);
             $this->load->view('surat_user/edit_surat_user');
-            $this->load->view('templates/footer');
+            $this->load->view('footer');
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('User'));
         }
     }
 
-    public function update_action($id)
+    public function update_action()
     {
         $file = $_FILES['surat']['name'];
+
+        $id = $this->input->post('id', TRUE);
+        $data = array(
+            'nama_surat'    => $this->input->post('nama_surat'),
+            'keterangan'    => $this->input->post('keterangan'),
+        );
+
         if ($this->form_validation->run() == TRUE) {
             $this->update($this->input->post('id', TRUE));
-        } else {
-            $config['upload_path']      = './surat_user';
-            $config['allowed_types']    = 'pdf';
-            $config['max_size'] = '2048';
-            $config['file_name'] = 'Surat' . $id;
-            $config['overwrite'] = TRUE;
-            $surat = 'Surat' . $id;
-
-            $this->load->library('upload', $config);
-            $this->upload->initialize($config);
-
-            if ($this->upload->do_upload('surat')) {
-                $data = array(
-                    'nama_surat'    => $this->input->post('nama_surat'),
-                    'keterangan'    => $this->input->post('keterangan'),
-                    'filename'      => $surat
-                );
-                $this->SuratUser_model->update($id, $data);
-                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Surat berhasil Diiubah</div>');
-                redirect(base_url('User/index'));
-            } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">File gagal diupload.Pastikan Ukuran file 2 MB</div>');
-                redirect(base_url('User/create'));
+        } 
+        else 
+        {
+            if (empty($_FILES['surat']['name']))
+            {
+                if($this->SuratUser_model->update($this->input->post('id', TRUE), $data)) 
+                {
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Surat berhasil Diiubah</div>');
+                    redirect(base_url('User/index'));
+                }
+                else
+                {
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Surat gagal Diiubah</div>');
+                    $this->update($this->input->post('id', TRUE));
+                }
             }
+            else
+            {
+                $config['upload_path']      = './surat_user';
+                $config['allowed_types']    = 'pdf';
+                $config['max_size'] = '2048';
+                $config['file_name'] = 'Surat' . $id.'.pdf';
+                $config['overwrite'] = TRUE;
+
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('surat')) 
+                {
+                    if($this->SuratUser_model->update($this->input->post('id', TRUE), $data)) {
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Surat berhasil Diiubah</div>');
+                        redirect(base_url('User/index'));
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Surat gagal Diiubah</div>');
+                        $this->update($this->input->post('id', TRUE));
+                    }
+                }
+                else 
+                {
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">File gagal diupload.Pastikan Ukuran file 2 MB</div>');
+                    $this->update($this->input->post('id', TRUE));
+                }
+            }  
         }
     }
 

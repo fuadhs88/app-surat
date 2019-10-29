@@ -46,7 +46,7 @@ class Auth extends CI_Controller
                                 $sess_data['level'] = $qad->level;
                                 $sess_data['id_user'] = $qad->id_user;
                                 $this->session->set_userdata($sess_data);
-                                $this->session->set_flashdata('message', 'Hello ' . $qad->nama);
+                                $this->session->set_flashdata('pesan', 'Hello ' . $qad->nama);
                                 $this->session->set_flashdata('tipe', 'success');
                                 if ($qad->level == "Admin") {
                                     redirect(base_url('admin'));

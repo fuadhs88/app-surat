@@ -42,7 +42,7 @@
                                             <td width="50px"><?= $i++; ?></td>
                                             <td><?= $surat2->nama_surat; ?></td>
                                             <td>
-                                                <a href="<?= base_url('surat_user/' . $surat2->filename . '.pdf'); ?>" target="_BLANK">View Surat</a>
+                                                <a href="<?= base_url('surat_user/' . $surat2->filename); ?>" target="_BLANK">View Surat</a>
                                             </td>
                                             <td><?= $surat2->keterangan; ?></td>
                                             <td>
