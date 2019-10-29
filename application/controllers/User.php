@@ -55,32 +55,40 @@ class User extends CI_Controller
             $this->session->set_flashdata('message', 'Mohon Isi data dengan lengkap');
             redirect(base_url('User/create'));
         } else {
-            $data = array(
-                'nama_surat'        => $this->input->post('nama_surat', TRUE),
-                'keterangan'        => $this->input->post('keterangan', TRUE),
-            );
-            $id = $this->SuratUser_model->insert($data);
-
-            $config['upload_path']      = './surat_user';
-            $config['allowed_types']    = 'pdf';
-            $config['max_size'] = '2048';
-            $config['file_name'] = 'Surat' . $id;
-            $config['overwrite'] = TRUE;
-            $surat = 'Surat' . $id;
-
-            $this->load->library('upload', $config);
-            $this->upload->initialize($config);
-            if (!$this->upload->do_upload('surat', $config)) {
+            if ($_FILES['surat']['size'] > 2097152) {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">File gagal diupload.Pastikan Ukuran file 2 MB</div>');
                 redirect(base_url('User/create'));
             } else {
-                $data1 = array(
-                    'filename'  => $surat
+                $data = array(
+                    'nama_surat'        => $this->input->post('nama_surat', TRUE),
+                    'keterangan'        => $this->input->post('keterangan', TRUE),
                 );
+                $id = $this->SuratUser_model->insert($data);
 
-                $this->SuratUser_model->update($id, $data1);
-                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Surat berhasil ditambahkan</div>');
-                redirect(base_url('User/index'));
+                $config['upload_path']      = './surat_user';
+                $config['allowed_types']    = 'pdf';
+                $config['max_size'] = '2048';
+                $config['file_name'] = 'Surat' . $id;
+                $config['overwrite'] = TRUE;
+                $surat = 'Surat' . $id;
+
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                if (!$this->upload->do_upload('surat')) {
+
+                    redirect(base_url('User/index'));
+                    $data1 = array(
+                        'filename'  => $surat
+                    );
+
+                    $this->SuratUser_model->update($id, $data1);
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Surat berhasil ditambahkan</div>');
+                    redirect(base_url('User/index'));
+                } else {
+                    $this->SuratUser_model->delete($id);
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">File gagal diupload.Pastikan Ukuran file 2 MB</div>');
+                    redirect(base_url('User/create'));
+                }
             }
         }
     }
