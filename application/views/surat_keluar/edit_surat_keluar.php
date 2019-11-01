@@ -43,7 +43,7 @@
                                         <small>Max Ukuran File 2 MB</small>
                                     </div>
                                 </div>
-                                <button type="submit" name="submit" class="btn btn-primary mr-2">Tambah</button>
+                                <button type="submit" name="submit" class="btn btn-primary mr-2">Ubah</button>
                             </form>
                         </div>
                     </div>
